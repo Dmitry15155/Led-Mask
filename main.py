@@ -14,7 +14,6 @@ class MainApp(App):
     def on_start(self):
         self.store = JsonStore('image.json')
         find_devices = bluetooth.discover_devices(lookup_names=True)
-        print(find_devices)
         port = 1
         for i in find_devices:
             self.adr, self.nam = i
