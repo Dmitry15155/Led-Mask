@@ -9,7 +9,6 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.togglebutton import ToggleButton
 # import bluetooth
-
 class MainApp(App):
 
     def on_start(self):

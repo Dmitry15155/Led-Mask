@@ -32,13 +32,13 @@ install:
   - dpl releases --token $GITHUB_TOKEN --file "bin/ledcompany1-0.1-armeabi-v7a-debug.apk" --tag_name "v.0.1"
   - echo "TODO COMPILE 64bit"
   - ls -l /home/travis/
-  - ls -l /home/travis/build/Dmitry1515/bluetoothmask
+  - ls -l /home/travis/build/Dmitry15155/maska
   - ls -la
   - rm -r -f .buildozer
   - ls -la
-  - rm -r -f /home/travis/build/Dmitry1515/bluetoothmask/.buildozer
+  - rm -r -f /home/travis/build/Dmitry15155/maska/.buildozer
   - ls -l /home/travis/
-  - ls -l /home/travis/build/Dmitry1515/bluetoothmask/
+  - ls -l /home/travis/build/Dmitry15155/maska/
   - ls -l
   - yes | cp -f buildozer-64bit.spec buildozer.spec
   - yes | buildozer android debug
