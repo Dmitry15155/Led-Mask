@@ -8,7 +8,8 @@ from kivy.storage.jsonstore import JsonStore
 from kivy.uix.textinput import TextInput
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.togglebutton import ToggleButton
-import bluetooth
+# import bluetooth
+
 class MainApp(App):
 
     def on_start(self):
@@ -54,7 +55,7 @@ class MainApp(App):
             instance.background_color = self.color
         else:
             instance.background_color = [.16, .17, .17, 1]
-        self.send_data()
+        # self.send_data()
 
     def f_button(self, instance):
         if instance.text == "Clear":
@@ -109,22 +110,22 @@ class MainApp(App):
             self.load.open()
             self.flag = False
 
-        if instance.text == "bluetooth":
-            layout = BoxLayout(orientation="vertical")
-            self.blue_popup = Popup(title="bluetooth", content=layout)
-            self.find = bluetooth.discover_devices(lookup_names=True)
-            self.devices = {}
-            for i in self.find:
-                name = i[1]
-                self.devices[name] = i[0]
-                butt = Button(text=name)
-                butt.bind(on_press=self.connect_devices)
-                layout.add_widget(butt)
-            close = Button(text="Close")
-            close.bind(on_press=self.close_bluetooth)
-            layout.add_widget(close)
-            self.blue_popup.open()
-            self.flag = False
+        # if instance.text == "bluetooth":
+        #     layout = BoxLayout(orientation="vertical")
+        #     self.blue_popup = Popup(title="bluetooth", content=layout)
+        #     self.find = bluetooth.discover_devices(lookup_names=True)
+        #     self.devices = {}
+        #     for i in self.find:
+        #         name = i[1]
+        #         self.devices[name] = i[0]
+        #         butt = Button(text=name)
+        #         butt.bind(on_press=self.connect_devices)
+        #         layout.add_widget(butt)
+        #     close = Button(text="Close")
+        #     close.bind(on_press=self.close_bluetooth)
+        #     layout.add_widget(close)
+        #     self.blue_popup.open()
+        #     self.flag = False
 
 
 
@@ -147,7 +148,7 @@ class MainApp(App):
                 if i.background_color == [.16, .17, .17, 1]:
                     i.background_normal = ""
                     i.background_color = self.color
-        self.send_data()
+        # self.send_data()
 
     def layout_save(self, instance):
         if instance.text == "Save":
@@ -178,16 +179,16 @@ class MainApp(App):
         self.flag = True
 
 
-    def connect_devices(self, instance):
-        name = instance.text
-        adress = self.devices.get(name)
-        self.soket = bluetooth.BluetoothSocket()
-        try:
-            self.soket.connect((adress, 1))
-            self.blue_popup.dismiss()
-            self.flag = True
-        except:
-            pass
+    # def connect_devices(self, instance):
+    #     name = instance.text
+    #     adress = self.devices.get(name)
+    #     # self.soket = bluetooth.BluetoothSocket()
+    #     try:
+    #         # self.soket.connect((adress, 1))
+    #         self.blue_popup.dismiss()
+    #         self.flag = True
+    #     except:
+    #         pass
 
 
 
