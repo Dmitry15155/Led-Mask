@@ -61,7 +61,7 @@ class MainApp(App):
             for i in self.b:
                 i.background_color = [.16, .17, .17, 1]
             try:
-                self.soket.send('0')
+                pass
             except:
                 pass
         if instance.text == "Palette":
@@ -191,23 +191,23 @@ class MainApp(App):
 
 
 
-    def send_data(self):
-        try:
-            flag = True
-            for i in self.b:
-                if i.background_color != [.16, .17, .17, 1]:
-                    flag = False
-                    break
-            if flag:
-                self.soket.send('0')
-            else:
-                self.soket.send('1')
-        except:
-            pass
-
-    def close_bluetooth(self, instance):
-        self.blue_popup.dismiss()
-        self.flag = True
+    # def send_data(self):
+    #     try:
+    #         flag = True
+    #         for i in self.b:
+    #             if i.background_color != [.16, .17, .17, 1]:
+    #                 flag = False
+    #                 break
+    #         if flag:
+    #             self.soket.send('0')
+    #         else:
+    #             self.soket.send('1')
+    #     except:
+    #         pass
+    #
+    # def close_bluetooth(self, instance):
+    #     self.blue_popup.dismiss()
+    #     self.flag = True
 
 
 MainApp().run()
