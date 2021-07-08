@@ -211,9 +211,5 @@ class MainApp(App):
     #     self.flag = True
 
 
-    def close_bluetooth(self):
-        self.blue_popup.dismiss()
-        self.flag = True
-
 
 MainApp().run()
