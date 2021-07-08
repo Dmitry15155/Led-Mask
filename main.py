@@ -109,22 +109,22 @@ class MainApp(App):
             self.load.open()
             self.flag = False
 
-        if instance.text == "bluetooth":
-            layout = BoxLayout(orientation="vertical")
-            self.blue_popup = Popup(title="bluetooth", content=layout)
-            service = DiscoveryService()
-            devices = service.discover(2)
-            self.devices = {}
-            for address, name in devices.items():
-                self.devices[name] = address
-                butt = Button(text=name)
-                butt.bind(on_press=self.connect_devices)
-                layout.add_widget(butt)
-            close = Button(text="Close")
-            close.bind(on_press=self.close_bluetooth)
-            layout.add_widget(close)
-            self.blue_popup.open()
-            self.flag = False
+        # if instance.text == "bluetooth":
+        #     layout = BoxLayout(orientation="vertical")
+        #     self.blue_popup = Popup(title="bluetooth", content=layout)
+        #     service = DiscoveryService()
+        #     devices = service.discover(2)
+        #     self.devices = {}
+        #     for address, name in devices.items():
+        #         self.devices[name] = address
+        #         butt = Button(text=name)
+        #         butt.bind(on_press=self.connect_devices)
+        #         layout.add_widget(butt)
+        #     close = Button(text="Close")
+        #     close.bind(on_press=self.close_bluetooth)
+        #     layout.add_widget(close)
+        #     self.blue_popup.open()
+        #     self.flag = False
 
 
 
@@ -178,8 +178,8 @@ class MainApp(App):
         self.flag = True
 
 
-    def connect_devices(self, instance):
-        pass
+    # def connect_devices(self, instance):
+    #     pass
         # name = instance.text
         # adress = self.devices.get(name)
     #     # self.soket = bluetooth.BluetoothSocket()
