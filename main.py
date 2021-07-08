@@ -109,22 +109,22 @@ class MainApp(App):
             self.load.open()
             self.flag = False
 
-        # if instance.text == "bluetooth":
-        #     layout = BoxLayout(orientation="vertical")
-        #     self.blue_popup = Popup(title="bluetooth", content=layout)
-        #     self.find = bluetooth.discover_devices(lookup_names=True)
-        #     self.devices = {}
-        #     for i in self.find:
-        #         name = i[1]
-        #         self.devices[name] = i[0]
-        #         butt = Button(text=name)
-        #         butt.bind(on_press=self.connect_devices)
-        #         layout.add_widget(butt)
-        #     close = Button(text="Close")
-        #     close.bind(on_press=self.close_bluetooth)
-        #     layout.add_widget(close)
-        #     self.blue_popup.open()
-        #     self.flag = False
+        if instance.text == "bluetooth":
+            layout = BoxLayout(orientation="vertical")
+            self.blue_popup = Popup(title="bluetooth", content=layout)
+            service = DiscoveryService()
+            devices = service.discover(2)
+            self.devices = {}
+            for address, name in devices.items():
+                self.devices[name] = address
+                butt = Button(text=name)
+                butt.bind(on_press=self.connect_devices)
+                layout.add_widget(butt)
+            close = Button(text="Close")
+            close.bind(on_press=self.close_bluetooth)
+            layout.add_widget(close)
+            self.blue_popup.open()
+            self.flag = False
 
 
 
@@ -178,9 +178,10 @@ class MainApp(App):
         self.flag = True
 
 
-    # def connect_devices(self, instance):
-    #     name = instance.text
-    #     adress = self.devices.get(name)
+    def connect_devices(self, instance):
+        pass
+        # name = instance.text
+        # adress = self.devices.get(name)
     #     # self.soket = bluetooth.BluetoothSocket()
     #     try:
     #         # self.soket.connect((adress, 1))
@@ -208,6 +209,11 @@ class MainApp(App):
     # def close_bluetooth(self, instance):
     #     self.blue_popup.dismiss()
     #     self.flag = True
+
+
+    def close_bluetooth(self):
+        self.blue_popup.dismiss()
+        self.flag = True
 
 
 MainApp().run()
