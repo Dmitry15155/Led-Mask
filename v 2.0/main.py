@@ -28,7 +28,7 @@ class MainApp(App):
             for j in range(16):
                 button = Button(text="", background_normal="", background_color=[.16, .17, .17, 1])
                 self.b.append(button)
-                button.bind(on_press=self.on_button_touch_up)
+                button.bind(on_press=self.pressb)
                 h_layout.add_widget(button)
 
             self.main_layout.add_widget(h_layout)
@@ -47,26 +47,36 @@ class MainApp(App):
 
         return self.main_layout
 
-    def on_button_touch_up(self, instance):
+    def pressb(self, instance):
 
         if instance.background_color == [.16, .17, .17, 1]:
             instance.background_normal = ""
             instance.background_color = self.color
-            self.data()
-        else:
-            instance.background_color = [.16, .17, .17, 1]
-            self.data()
-    def f_button(self, instance):
-        if instance.text == "Clear":
-            for i in self.b:
-                i.background_color = [.16, .17, .17, 1]
             try:
-                self.sendData(10)
+                self.sendData(self.b.index(instance))  # index
+                self.sendData(instance.background_color[0] * 255)  # R
+                self.sendData(instance.background_color[1] * 255)  # G
+                self.sendData(instance.background_color[2] * 255)  # B
             except:
                 pass
+
+        else:
+            instance.background_color = [.16, .17, .17, 1]
+            try:
+                self.sendData(self.b.index(instance))  # index
+                self.sendData(0)  # R
+                self.sendData(0)  # G
+                self.sendData(0)  # B
+            except:
+                pass
+
+    def f_button(self, instance):
+        if instance.text == "Clear":
+            self.clear()
         if instance.text == "Palette":
             layout = BoxLayout(orientation="vertical", padding=20, spacing=20)
             self.palette = ColorPicker()
+            self.palette.color = self.color
             button = Button(text="Close", size_hint=(.1, .1))
             layout.add_widget(self.palette)
             layout.add_widget(button)
@@ -131,10 +141,6 @@ class MainApp(App):
             self.flag = False
 
 
-
-
-
-
     def exit_palette(self, instance):
         self.color = self.palette.color
         self.popup.dismiss()
@@ -153,7 +159,13 @@ class MainApp(App):
                 if i.background_color == [.16, .17, .17, 1]:
                     i.background_normal = ""
                     i.background_color = self.color
-                    self.data()
+                    try:
+                        self.sendData(self.b.index(i)) # index
+                        self.sendData(i.background_color[0] * 255) # R
+                        self.sendData(i.background_color[1] * 255) # G
+                        self.sendData(i.background_color[2] * 255) # B
+                    except:
+                        pass
 
 
 
@@ -172,9 +184,19 @@ class MainApp(App):
 
     def load_button(self, instance):
         if self.del_button.state != "down":
+            self.clear()
             colors = self.store.get(instance.text)["colors"]
             for i in range(len(self.b)):
                 self.b[i].background_color = colors[i]
+                self.out = list(filter(lambda i: i.background_color != [0.16, 0.17, 0.17, 1], self.b))
+            for i in range(len(self.out)):
+                try:
+                    self.sendData(self.b.index(self.out[i]))  # index
+                    self.sendData(self.out[i].background_color[0] * 255)  # R
+                    self.sendData(self.out[i].background_color[1] * 255)  # G
+                    self.sendData(self.out[i].background_color[2] * 255)  # B
+                except:
+                    pass
             self.load.dismiss()
             self.flag = True
         else:
@@ -190,14 +212,18 @@ class MainApp(App):
         self.popup_bluetooth.dismiss()
         self.flag = True
 
+
+
     def connect(self, instance):
         name = instance.text
         dev = self.devise.get(name)
         uid = autoclass("java.util.UUID")
-        MY_UUID = uid.fromString("00001101-0000-1000-8000-00805F9B34FB")
-        self.soket = dev.createRfcommSocketToServiceRecord(MY_UUID)
+        self.socket = dev.createRfcommSocketToServiceRecord(
+            uid.fromString("00001101-0000-1000-8000-00805F9B34FB"))
+        self.recv_stream = self.socket.getInputStream()
+        self.send_stream = self.socket.getOutputStream()
         try:
-            self.soket.connect()
+            self.socket.connect()
             self.popup_bluetooth.dismiss()
             self.flag = True
 
@@ -205,26 +231,18 @@ class MainApp(App):
             instance.background_color = [100, 0, 0, 1]
 
     def sendData(self, data):
-        stream = autoclass("java.io.ByteArrayOutputStream")
-        output = stream(4)
-        output.write(data)
-        outputStream = self.soket.getOutputStream()
-        outputStream.write(output.toByteArray())
+        self.send_stream.write(data)
 
-
-    def data(self):
+    def clear(self):
+        for i in self.b:
+            i.background_color = [.16, .17, .17, 1]
         try:
-            f = False
-            for i in self.b:
-                if i.background_color != [.16, .17, .17, 1]:
-                    f = True
-                    break
-            if f:
-                self.sendData(20)
-            else:
-                self.sendData(10)
+            self.sendData(255)  # index погрог 256
+
         except:
             pass
+
+
 
 
 
